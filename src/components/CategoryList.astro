@@ -1,0 +1,50 @@
+---
+import { getCategories } from "../lib/strapi";
+import type Catalog from "../interfaces/catalog";
+
+// const categories = await fetchApi<Catalog[]>({
+//   endpoint: "categories",
+//   wrappedByKey: "data",
+// });
+
+const { lang } = Astro.params; // Получаем язык из URL
+const { pathname } = Astro.url;
+
+const resolvedLang = lang ?? "en";
+
+const categories = await getCategories(resolvedLang);
+
+---
+
+<ul>
+  {
+    categories.map((category) => {
+      return (
+        <li>
+          <h2>{category.name}</h2>
+          <p>{category.description}</p>
+          <a href=`${category.slug}/`>{category.name}</a>
+
+          {category.image && (
+            <img
+              src={import.meta.env.STRAPI_URL + category.image.url}
+              alt={category.name}
+              loading="lazy"
+              width={category.image.width}
+              height={category.image.height}
+            />
+          )}
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  ul {
+    list-style-type: none;
+
+    display: flex;
+    gap: 50px;
+  }
+</style>

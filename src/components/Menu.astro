@@ -1,0 +1,30 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+const props = Astro.params;
+const aboutURL = getRelativeLocaleUrl("en", "");
+---
+
+<nav>
+  <LanguageSwitcher />
+  <a href={getRelativeLocaleUrl("en", "/")}>Main</a>
+  <a href={getRelativeLocaleUrl("en", "/catalog")}>catalog</a>
+  <a href={getRelativeLocaleUrl("en", "/catalog/laser-machines")}
+    >Laser machines</a
+  >
+  <a href={getRelativeLocaleUrl("en", "/service")}>service</a>
+  <a href={getRelativeLocaleUrl("en", "/about")}>about</a>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    gap: 30px;
+  }
+
+  a {
+    font-size: 20px;
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  getRelativeLocaleUrl,
+  getAbsoluteLocaleUrl,
+  getRelativeLocaleUrlList,
+  getAbsoluteLocaleUrlList,
+  getPathByLocale,
+  getLocaleByPath,
+  redirectToDefaultLocale,
+  redirectToFallback,
+  notFound,
+  middleware,
+  requestHasLocale,
+} from "astro:i18n";
+
+const pathLocal = getPathByLocale("en");
+
+const localPath = getLocaleByPath("en");
+const urlList = getRelativeLocaleUrlList();
+const aboutURL = getRelativeLocaleUrl("en", "/catalog");
+
+console.log(urlList);
+export function getStaticPaths() {
+  return [
+    { params: { locale: urlList[0] } },
+    { params: { locale: urlList[1] } },
+    { params: { locale: urlList[2] } },
+  ];
+}
+
+const { title, text } = Astro.props;
+---
+
+<Layout title="Main Page">
+  <main>
+    <h1>{localPath} - Welcome</h1>
+  </main>
+</Layout>
+
+<style></style>

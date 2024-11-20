@@ -1,0 +1,57 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { getProducts } from "../../../../lib/strapi";
+
+// import type Product from "../../../../interfaces/product";
+// import fetchApi from "../../../../lib/strapi";
+
+const { lang } = Astro.params; // Получаем язык из URL
+const resolvedLang = lang ?? "en";
+/*
+const products = await fetchApi<Product[]>({
+  endpoint: `products`,
+  query: {
+    populate: "imageMain",
+    fields: "name, description, article, model, orderPrice, locale",
+  },
+  wrappedByKey: "data",
+});
+*/
+
+const products = await getProducts(resolvedLang);
+
+// console.log(products);
+---
+
+<Layout title="Category page (list of products)">
+  <main>
+    <h1>Category page (list of products)<br /> LANG- {resolvedLang}</h1>
+    <ul>
+      {
+        products.map((product) => {
+          return (
+            <li>
+              <h2>
+                ID = {product.documentId} <br />
+                {product.name}
+              </h2>
+              {product.imageMain && (
+                <img
+                  src={import.meta.env.STRAPI_URL + product.imageMain.url}
+                  alt={product.name}
+                  loading="lazy"
+                  width={product.imageMain.width}
+                  height={product.imageMain.height}
+                />
+              )}
+              <p>Price {product.orderPrice} €</p>
+              <p>{product.description}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </main>
+</Layout>
+
+<style></style>

@@ -1,0 +1,16 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const currentPath = Astro.url.pathname;
+const langs = ["en", "fr", "it"];
+---
+
+<ul>
+  {
+    langs.map((lang) => (
+      <li>
+        <a href={getRelativeLocaleUrl(lang, currentPath)}>{lang}</a>
+      </li>
+    ))
+  }
+</ul>
